@@ -83,7 +83,7 @@ export const Adjustments: React.FC = () => {
 
   const fetchAdjustments = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/adjustments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -97,7 +97,7 @@ export const Adjustments: React.FC = () => {
 
   const fetchProducts = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -109,7 +109,7 @@ export const Adjustments: React.FC = () => {
 
   const fetchWarehouses = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/warehouses`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -134,7 +134,7 @@ export const Adjustments: React.FC = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       await axios.post(
         `${import.meta.env.VITE_API_URL}/adjustments`,
         formData,
@@ -153,7 +153,7 @@ export const Adjustments: React.FC = () => {
     if (!window.confirm('Are you sure you want to delete this adjustment?')) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       await axios.delete(`${import.meta.env.VITE_API_URL}/adjustments/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });

@@ -40,7 +40,7 @@ export const ReorderRules: React.FC = () => {
   const fetchReorderRules = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/products/reorder-rules`,
         {
@@ -58,7 +58,7 @@ export const ReorderRules: React.FC = () => {
 
   const fetchPurchaseSuggestions = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/products/purchase-suggestions`,
         {
@@ -92,7 +92,7 @@ export const ReorderRules: React.FC = () => {
 
     try {
       setIsSaving(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const updates = editedProducts[productId];
 
       await axios.put(

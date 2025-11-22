@@ -45,7 +45,7 @@ export const ProductCategories: React.FC = () => {
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/categories`,
         {
@@ -95,7 +95,7 @@ export const ProductCategories: React.FC = () => {
 
     try {
       setIsSaving(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
 
       const payload = {
         name: formData.name,
@@ -144,7 +144,7 @@ export const ProductCategories: React.FC = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/categories/${categoryId}`,
         {

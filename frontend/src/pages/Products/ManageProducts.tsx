@@ -93,7 +93,7 @@ export const ManageProducts: React.FC = () => {
   const fetchInitialData = async () => {
     try {
       setIsFetchingData(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
 
       const [categoriesRes, warehousesRes] = await Promise.all([
         axios.get(`${import.meta.env.VITE_API_URL}/categories`, {
@@ -118,7 +118,7 @@ export const ManageProducts: React.FC = () => {
   const fetchProductData = async (id: string) => {
     try {
       setIsFetchingData(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/products/${id}`,
         {
@@ -152,7 +152,7 @@ export const ManageProducts: React.FC = () => {
   const handleGenerateSKU = async () => {
     try {
       setIsGeneratingSKU(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       const url = formData.category
         ? `${import.meta.env.VITE_API_URL}/products/generate-sku?categoryId=${formData.category}`
         : `${import.meta.env.VITE_API_URL}/products/generate-sku`;
@@ -220,7 +220,7 @@ export const ManageProducts: React.FC = () => {
 
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
 
       const payload = {
         ...formData,
