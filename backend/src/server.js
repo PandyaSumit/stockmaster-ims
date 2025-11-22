@@ -9,6 +9,9 @@ const connectDB = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const receiptRoutes = require('./routes/receiptRoutes');
+const deliveryRoutes = require('./routes/deliveryRoutes');
+const adjustmentRoutes = require('./routes/adjustmentRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Initialize express app
@@ -48,6 +51,9 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/receipts', receiptRoutes);
+app.use('/api/deliveries', deliveryRoutes);
+app.use('/api/adjustments', adjustmentRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
