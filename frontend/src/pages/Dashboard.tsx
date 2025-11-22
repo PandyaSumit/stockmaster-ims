@@ -1,23 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Package, LogOut, Users, Settings, BarChart3, Bell, 
+import {
+  Package, Users, Settings, BarChart3, Bell,
   TrendingUp, ArrowUpRight, Shield, Clock
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
-import toast from 'react-hot-toast';
-import { ThemeToggle } from '../components/ThemeToggle';
 
 export const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
-
-  const handleLogout = async () => {
-    await logout();
-    toast.success('Logged out successfully');
-    navigate('/login');
-  };
+  const { user } = useAuthStore();
 
   const stats = [
     { 
@@ -51,50 +41,8 @@ export const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
-                <Package className="w-4 h-4 text-white dark:text-gray-900" strokeWidth={2.5} />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-gray-900 dark:text-white tracking-tight">
-                  StockMaster
-                </div>
-                <div className="text-xs text-gray-500">IMS</div>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <button
-                onClick={handleLogout}
-                className="
-                  inline-flex items-center gap-2 px-3 py-2
-                  text-sm font-medium
-                  text-gray-700 hover:text-gray-900
-                  dark:text-gray-300 dark:hover:text-white
-                  hover:bg-gray-100 dark:hover:bg-gray-800
-                  rounded-lg
-                  transition-colors duration-200
-                "
-              >
-                <LogOut className="w-4 h-4" strokeWidth={2} />
-                <span className="hidden sm:inline">Sign out</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
+    <>
+      {/* Welcome Section */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -384,7 +332,6 @@ export const Dashboard: React.FC = () => {
             </div>
           </motion.div>
         </div>
-      </main>
-    </div>
+    </>
   );
 };
