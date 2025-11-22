@@ -4,16 +4,40 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 
-// Pages
+// Auth Pages
 import { Login } from './pages/Login';
 import { SignUp } from './pages/SignUp';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { VerifyOTP } from './pages/VerifyOTP';
 import { ResetPassword } from './pages/ResetPassword';
+
+// Dashboard & Profile
 import { Dashboard } from './pages/Dashboard';
+import { Profile } from './pages/Profile';
+
+// Product Pages
+import { ManageProducts } from './pages/Products/ManageProducts';
+import { StockAvailability } from './pages/Products/StockAvailability';
+import { ProductCategories } from './pages/Products/ProductCategories';
+import { ReorderRules } from './pages/Products/ReorderRules';
+
+// Operations Pages
+import { Receipts } from './pages/Operations/Receipts';
+import { Deliveries } from './pages/Operations/Deliveries';
+import { Adjustments } from './pages/Operations/Adjustments';
+
+// Move History
+import { MoveHistory } from './pages/MoveHistory';
+
+// Settings Pages
+import { Warehouse } from './pages/Settings/Warehouse';
+import { Users } from './pages/Settings/Users';
+import { General } from './pages/Settings/General';
+import { Notifications } from './pages/Settings/Notifications';
 
 // Components
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { DashboardLayout } from './components/DashboardLayout';
 
 function App() {
   const { checkAuth } = useAuthStore();
@@ -72,27 +96,157 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Protected Routes */}
+        {/* Protected Routes - Dashboard */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
-              <Dashboard />
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager', 'Warehouse Staff']}>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Admin-only routes example */}
-        {/*
+        {/* Profile */}
         <Route
-          path="/admin"
+          path="/profile"
           element={
-            <ProtectedRoute allowedRoles={['Admin']}>
-              <AdminPanel />
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Profile />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
-        */}
+
+        {/* Product Routes */}
+        <Route
+          path="/products/manage"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <ManageProducts />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/stock"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager', 'Warehouse Staff']}>
+              <DashboardLayout>
+                <StockAvailability />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/categories"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <ProductCategories />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/reorder-rules"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <ReorderRules />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Operations Routes */}
+        <Route
+          path="/operations/receipts"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager', 'Warehouse Staff']}>
+              <DashboardLayout>
+                <Receipts />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/operations/deliveries"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager', 'Warehouse Staff']}>
+              <DashboardLayout>
+                <Deliveries />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/operations/adjustments"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <Adjustments />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Move History */}
+        <Route
+          path="/move-history"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager', 'Warehouse Staff']}>
+              <DashboardLayout>
+                <MoveHistory />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings Routes */}
+        <Route
+          path="/settings/warehouse"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <Warehouse />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/users"
+          element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <DashboardLayout>
+                <Users />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/general"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <General />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/notifications"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Inventory Manager']}>
+              <DashboardLayout>
+                <Notifications />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
 
         {/* Default redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
