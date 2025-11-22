@@ -19,8 +19,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       <div
         className={clsx(
           'transition-all duration-300',
-          'lg:ml-64', // Default margin for expanded sidebar on desktop
-          isCollapsed && 'lg:ml-20' // Reduced margin for collapsed sidebar on desktop
+          isCollapsed ? 'lg:ml-20' : 'lg:ml-64' // Adjust margin based on sidebar state
         )}
       >
         {/* Header */}
