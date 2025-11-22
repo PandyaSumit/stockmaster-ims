@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -23,25 +23,26 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-gradient-primary text-white hover:shadow-glow focus:ring-primary-500/50',
-    secondary: 'bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:shadow-glow-lg focus:ring-accent-500/50',
-    outline: 'border-2 border-primary-500 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 focus:ring-primary-500/50',
-    ghost: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500/50',
+    primary: 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500/30 shadow-sm hover:shadow-soft-md',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 dark:active:bg-gray-500 focus:ring-gray-500/30 shadow-sm hover:shadow-soft-md',
+    outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 active:bg-primary-100 dark:border-primary-500 dark:text-primary-400 dark:hover:bg-primary-950/30 dark:active:bg-primary-950/50 focus:ring-primary-500/30',
+    ghost: 'text-gray-700 hover:bg-gray-100 active:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800 dark:active:bg-gray-700 focus:ring-gray-500/20',
+    danger: 'bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus:ring-error-500/30 shadow-sm hover:shadow-soft-md',
   };
 
   const sizes = {
-    sm: 'px-4 py-2 text-sm gap-2',
-    md: 'px-6 py-3 text-base gap-2',
-    lg: 'px-8 py-4 text-lg gap-3',
+    sm: 'px-3 py-2 text-sm gap-1.5',
+    md: 'px-4 py-2.5 text-base gap-2',
+    lg: 'px-6 py-3 text-base gap-2',
   };
 
   return (
     <motion.button
-      whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
+      whileHover={{ scale: disabled || isLoading ? 1 : 1.01 }}
+      whileTap={{ scale: disabled || isLoading ? 1 : 0.99 }}
       className={clsx(
         baseStyles,
         variants[variant],
@@ -55,7 +56,7 @@ export const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <>
           <svg
-            className="animate-spin h-5 w-5"
+            className="animate-spin h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -78,9 +79,9 @@ export const Button: React.FC<ButtonProps> = ({
         </>
       ) : (
         <>
-          {leftIcon && <span>{leftIcon}</span>}
+          {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
           {children}
-          {rightIcon && <span>{rightIcon}</span>}
+          {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
         </>
       )}
     </motion.button>

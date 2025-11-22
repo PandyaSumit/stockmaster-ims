@@ -9,8 +9,8 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ label, className, ...props }, ref) => {
     return (
-      <label className="flex items-center gap-3 cursor-pointer group">
-        <div className="relative">
+      <label className="flex items-center gap-2.5 cursor-pointer group">
+        <div className="relative flex items-center">
           <input
             ref={ref}
             type="checkbox"
@@ -20,24 +20,24 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <motion.div
             whileTap={{ scale: 0.95 }}
             className={clsx(
-              'w-5 h-5 rounded-md border-2 transition-all duration-300',
+              'w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center',
               'border-gray-300 dark:border-gray-600',
-              'peer-checked:bg-gradient-primary peer-checked:border-transparent',
+              'peer-checked:bg-primary-600 peer-checked:border-primary-600',
               'peer-focus:ring-4 peer-focus:ring-primary-500/20',
               'group-hover:border-primary-400',
               className
             )}
           >
             <svg
-              className="w-full h-full text-white opacity-0 peer-checked:opacity-100 transition-opacity"
+              className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              strokeWidth={3}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={3}
                 d="M5 13l4 4L19 7"
               />
             </svg>
@@ -45,7 +45,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </div>
 
         {label && (
-          <span className="text-sm text-gray-700 dark:text-gray-300 select-none">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 select-none">
             {label}
           </span>
         )}
