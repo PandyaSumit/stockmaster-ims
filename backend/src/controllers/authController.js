@@ -217,7 +217,7 @@ const logout = async (req, res) => {
     if (refreshToken) {
       // Remove refresh token from database
       await User.updateOne(
-        { _id: req.user.userId },
+        { _id: req.user._id },
         { $pull: { refreshTokens: { token: refreshToken } } }
       );
     }
@@ -246,7 +246,7 @@ const logoutAll = async (req, res) => {
   try {
     // Remove all refresh tokens
     await User.updateOne(
-      { _id: req.user.userId },
+      { _id: req.user._id },
       { $set: { refreshTokens: [] } }
     );
 
@@ -531,7 +531,7 @@ const resetPassword = async (req, res) => {
 // @access  Private
 const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({
