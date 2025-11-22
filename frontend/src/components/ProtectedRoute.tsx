@@ -17,9 +17,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Show loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-accent-50 to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-2xl shadow-glow mb-4 animate-pulse">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-xl shadow-soft mb-4 animate-pulse">
             <svg
               className="animate-spin h-8 w-8 text-white"
               xmlns="http://www.w3.org/2000/svg"
@@ -55,10 +55,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Check role-based access
   if (allowedRoles && user && !allowedRoles.includes(user.role)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-accent-50 to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
-        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-soft-lg border border-white/20 dark:border-gray-700/50 p-8 max-w-md text-center">
-          <div className="w-16 h-16 bg-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 p-4">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-soft-lg border border-gray-200 dark:border-gray-800 p-8 max-w-md text-center">
+          <div className="w-16 h-16 bg-error-100 dark:bg-error-900/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-error-600 dark:text-error-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
@@ -68,9 +68,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             You don't have permission to access this page.
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500">
-            Your role: <span className="font-semibold">{user.role}</span>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
+            Your role: <span className="font-semibold text-primary-600 dark:text-primary-400">{user.role}</span>
           </p>
+          <button
+            onClick={() => window.history.back()}
+            className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors shadow-sm hover:shadow-soft-md"
+          >
+            Go Back
+          </button>
         </div>
       </div>
     );

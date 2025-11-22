@@ -27,9 +27,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
 
-          <motion.input
+          <input
             ref={ref}
-            whileFocus={{ scale: 1.005 }}
             className={clsx(
               'w-full px-4 py-2.5 rounded-lg border-2 transition-all duration-200',
               'bg-white dark:bg-gray-800',
