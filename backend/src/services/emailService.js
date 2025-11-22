@@ -5,7 +5,7 @@ const createTransporter = () => {
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: false, // true for 465, false for other ports
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
@@ -13,48 +13,88 @@ const createTransporter = () => {
   });
 };
 
+// Common email styles
+const getEmailTemplate = (content) => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockMaster IMS</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f7; line-height: 1.6;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f5f5f7;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding: 48px 48px 32px; text-align: center; border-bottom: 1px solid #e8e8ed;">
+              <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.5px;">
+                StockMaster IMS
+              </h1>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 48px;">
+              ${content}
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 32px 48px; text-align: center; border-top: 1px solid #e8e8ed; background-color: #fafafa;">
+              <p style="margin: 0; font-size: 13px; color: #86868b; line-height: 1.5;">
+                © ${new Date().getFullYear()} StockMaster IMS. All rights reserved.
+              </p>
+            </td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
 // Send welcome email
 const sendWelcomeEmail = async (email, name) => {
   const transporter = createTransporter();
-
+  
+  const content = `
+    <h2 style="margin: 0 0 16px; font-size: 28px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.5px;">
+      Welcome, ${name}
+    </h2>
+    
+    <p style="margin: 0 0 24px; font-size: 16px; color: #424245; line-height: 1.6;">
+      Your account has been successfully created. You now have access to our inventory management system.
+    </p>
+    
+    <table role="presentation" style="margin: 32px 0;">
+      <tr>
+        <td style="border-radius: 8px; background-color: #007aff;">
+          <a href="${process.env.FRONTEND_URL || 'https://stockmaster.com'}/login" 
+             style="display: inline-block; padding: 14px 32px; font-size: 15px; font-weight: 500; color: #ffffff; text-decoration: none; letter-spacing: 0.2px;">
+            Get Started
+          </a>
+        </td>
+      </tr>
+    </table>
+    
+    <p style="margin: 32px 0 0; font-size: 14px; color: #86868b; line-height: 1.5;">
+      If you have any questions, feel free to reach out to our support team.
+    </p>
+  `;
+  
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: '🎉 Welcome to StockMaster IMS!',
-    html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; }
-            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; color: white; }
-            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
-            .content { padding: 40px 30px; }
-            .content h2 { color: #333; font-size: 24px; margin-bottom: 20px; }
-            .content p { color: #666; line-height: 1.6; font-size: 16px; }
-            .button { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 20px; }
-            .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #999; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>📦 StockMaster IMS</h1>
-            </div>
-            <div class="content">
-              <h2>Welcome aboard, ${name}! 👋</h2>
-              <p>Thank you for joining StockMaster IMS. Your account has been successfully created!</p>
-              <p>You can now access our powerful inventory management system to streamline your operations.</p>
-              <a href="${process.env.FRONTEND_URL}/login" class="button">Get Started</a>
-            </div>
-            <div class="footer">
-              <p>© 2024 StockMaster IMS. All rights reserved.</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `,
+    subject: 'Welcome to StockMaster IMS',
+    html: getEmailTemplate(content),
   };
 
   try {
@@ -69,49 +109,42 @@ const sendWelcomeEmail = async (email, name) => {
 // Send OTP email
 const sendOTPEmail = async (email, otp) => {
   const transporter = createTransporter();
-
+  
+  const content = `
+    <h2 style="margin: 0 0 16px; font-size: 28px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.5px;">
+      Password Reset
+    </h2>
+    
+    <p style="margin: 0 0 32px; font-size: 16px; color: #424245; line-height: 1.6;">
+      Use the verification code below to reset your password:
+    </p>
+    
+    <table role="presentation" style="width: 100%; margin: 0 0 32px;">
+      <tr>
+        <td align="center">
+          <div style="display: inline-block; padding: 24px 48px; background-color: #f5f5f7; border-radius: 12px; border: 2px solid #e8e8ed;">
+            <span style="font-size: 36px; font-weight: 600; color: #1d1d1f; letter-spacing: 8px; font-family: 'Courier New', monospace;">
+              ${otp}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+    
+    <p style="margin: 0 0 8px; font-size: 14px; color: #86868b; line-height: 1.5;">
+      This code will expire in 10 minutes.
+    </p>
+    
+    <p style="margin: 0; font-size: 14px; color: #86868b; line-height: 1.5;">
+      If you didn't request this code, please ignore this email.
+    </p>
+  `;
+  
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: '🔐 Password Reset OTP - StockMaster IMS',
-    html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; }
-            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; color: white; }
-            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
-            .content { padding: 40px 30px; text-align: center; }
-            .content h2 { color: #333; font-size: 24px; margin-bottom: 20px; }
-            .content p { color: #666; line-height: 1.6; font-size: 16px; }
-            .otp-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 36px; font-weight: 700; padding: 20px; border-radius: 12px; letter-spacing: 8px; margin: 30px 0; display: inline-block; }
-            .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; text-align: left; border-radius: 8px; }
-            .warning p { color: #856404; margin: 0; font-size: 14px; }
-            .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #999; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>🔐 Password Reset</h1>
-            </div>
-            <div class="content">
-              <h2>Your OTP Code</h2>
-              <p>Use the following OTP to reset your password:</p>
-              <div class="otp-box">${otp}</div>
-              <div class="warning">
-                <p><strong>⚠️ Important:</strong> This OTP will expire in 10 minutes. If you didn't request this, please ignore this email.</p>
-              </div>
-            </div>
-            <div class="footer">
-              <p>© 2024 StockMaster IMS. All rights reserved.</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `,
+    subject: 'Password Reset Code',
+    html: getEmailTemplate(content),
   };
 
   try {
@@ -126,47 +159,37 @@ const sendOTPEmail = async (email, otp) => {
 // Send password reset confirmation email
 const sendPasswordResetConfirmation = async (email, name) => {
   const transporter = createTransporter();
-
+  
+  const content = `
+    <h2 style="margin: 0 0 16px; font-size: 28px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.5px;">
+      Password Updated
+    </h2>
+    
+    <p style="margin: 0 0 24px; font-size: 16px; color: #424245; line-height: 1.6;">
+      Hi ${name}, your password has been successfully reset. You can now log in with your new password.
+    </p>
+    
+    <table role="presentation" style="margin: 32px 0;">
+      <tr>
+        <td style="border-radius: 8px; background-color: #007aff;">
+          <a href="${process.env.FRONTEND_URL || 'https://stockmaster.com'}/login" 
+             style="display: inline-block; padding: 14px 32px; font-size: 15px; font-weight: 500; color: #ffffff; text-decoration: none; letter-spacing: 0.2px;">
+            Log In
+          </a>
+        </td>
+      </tr>
+    </table>
+    
+    <p style="margin: 32px 0 0; font-size: 14px; color: #86868b; line-height: 1.5;">
+      If you didn't make this change, please contact our support team immediately.
+    </p>
+  `;
+  
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: '✅ Password Reset Successful - StockMaster IMS',
-    html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; }
-            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-            .header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 20px; text-align: center; color: white; }
-            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
-            .content { padding: 40px 30px; }
-            .content h2 { color: #333; font-size: 24px; margin-bottom: 20px; }
-            .content p { color: #666; line-height: 1.6; font-size: 16px; }
-            .success-icon { font-size: 64px; margin: 20px 0; }
-            .button { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 20px; }
-            .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #999; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>✅ Password Reset Successful</h1>
-            </div>
-            <div class="content">
-              <div class="success-icon">🎉</div>
-              <h2>Hi ${name},</h2>
-              <p>Your password has been successfully reset!</p>
-              <p>You can now log in to your account using your new password.</p>
-              <a href="${process.env.FRONTEND_URL}/login" class="button">Login Now</a>
-            </div>
-            <div class="footer">
-              <p>© 2024 StockMaster IMS. All rights reserved.</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `,
+    subject: 'Password Reset Successful',
+    html: getEmailTemplate(content),
   };
 
   try {
@@ -181,5 +204,5 @@ const sendPasswordResetConfirmation = async (email, name) => {
 module.exports = {
   sendWelcomeEmail,
   sendOTPEmail,
-  sendPasswordResetConfirmation
+  sendPasswordResetConfirmation,
 };
