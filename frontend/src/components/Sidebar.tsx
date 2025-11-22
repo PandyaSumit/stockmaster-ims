@@ -111,9 +111,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         key={item.id}
         to={item.path || '#'}
         className={clsx(
-          'flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-all duration-200',
+          'flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 transition-all duration-200',
           isActive
-            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+            ? 'bg-primary-600 text-white shadow-sm'
             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
           isCollapsed && 'justify-center px-2'
         )}
@@ -126,11 +126,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <span
                 className={clsx(
                   'px-2 py-0.5 rounded-full text-xs font-semibold',
-                  item.badgeVariant === 'primary' && 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300',
+                  isActive
+                    ? 'bg-white/20 text-white'
+                    : item.badgeVariant === 'primary' && 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300',
                   item.badgeVariant === 'warning' && 'bg-warning-100 text-warning-700 dark:bg-warning-900/40 dark:text-warning-300',
                   item.badgeVariant === 'success' && 'bg-success-100 text-success-700 dark:bg-success-900/40 dark:text-success-300',
                   item.badgeVariant === 'error' && 'bg-error-100 text-error-700 dark:bg-error-900/40 dark:text-error-300',
-                  !item.badgeVariant && 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                  !item.badgeVariant && !isActive && 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                 )}
               >
                 {item.badge}
@@ -152,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         className={clsx(
           'flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200',
           isActive
-            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
+            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium'
             : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'
         )}
       >
@@ -177,62 +179,69 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   };
 
   const sidebarContent = (
-    <div className="h-full flex flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
+    <div className="h-full flex flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 shadow-soft-md">
       {/* Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-800">
+      <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200 dark:border-gray-800 flex-shrink-0">
         {!isCollapsed && (
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SM</span>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-primary-600 rounded-lg flex items-center justify-center shadow-sm">
+              <span className="text-white font-bold text-base">SM</span>
             </div>
-            <span className="font-bold text-lg text-gray-900 dark:text-white">StockMaster</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-base text-gray-900 dark:text-white">StockMaster</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">IMS</span>
+            </div>
           </div>
         )}
         {isCollapsed && (
-          <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center mx-auto">
-            <span className="text-white font-bold text-sm">SM</span>
+          <div className="w-9 h-9 bg-primary-600 rounded-lg flex items-center justify-center mx-auto shadow-sm">
+            <span className="text-white font-bold text-base">SM</span>
           </div>
         )}
         {/* Close button for mobile */}
         <button
           onClick={closeSidebar}
-          className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+          className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 overflow-y-auto px-3 py-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
         {navigationItems.map((item) => renderNavItem(item))}
       </nav>
 
       {/* Profile Section */}
-      <div className="border-t border-gray-200 dark:border-gray-800 p-3">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-3 flex-shrink-0">
         <div className="relative">
           <button
             onClick={() => setShowProfileDropdown(!showProfileDropdown)}
             className={clsx(
-              'w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200',
-              isCollapsed && 'justify-center px-2'
+              'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200',
+              isCollapsed && 'justify-center px-2',
+              showProfileDropdown && 'bg-gray-100 dark:bg-gray-800'
             )}
           >
-            <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
               <span className="text-white font-semibold text-sm">
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </span>
             </div>
             {!isCollapsed && (
               <>
-                <div className="flex-1 text-left">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                <div className="flex-1 text-left min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                     {user?.name || 'User'}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                     {user?.role || 'Role'}
                   </p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-gray-500" />
+                <ChevronDown className={clsx(
+                  "w-4 h-4 text-gray-500 transition-transform duration-200",
+                  showProfileDropdown && "rotate-180"
+                )} />
               </>
             )}
           </button>
@@ -253,8 +262,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
                   onClick={() => setShowProfileDropdown(false)}
                 >
                   <UserIcon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">My Profile</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">My Profile</span>
                 </Link>
+                <div className="h-px bg-gray-200 dark:bg-gray-700" />
                 <button
                   onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-error-50 dark:hover:bg-error-900/20 transition-colors text-error-600 dark:text-error-400"
@@ -270,9 +280,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         {/* Collapse Toggle (Desktop only) */}
         <button
           onClick={toggleCollapsed}
-          className="hidden lg:flex items-center justify-center w-full mt-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+          className={clsx(
+            "hidden lg:flex items-center gap-2 w-full mt-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200",
+            isCollapsed ? "justify-center" : "justify-start"
+          )}
+          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <Menu className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          {!isCollapsed && (
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Collapse
+            </span>
+          )}
         </button>
       </div>
     </div>
@@ -288,7 +307,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
             onClick={closeSidebar}
           />
         )}
