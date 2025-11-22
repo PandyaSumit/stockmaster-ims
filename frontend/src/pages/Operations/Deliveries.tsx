@@ -41,7 +41,7 @@ export const Deliveries: React.FC = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       const params = selectedStatus ? `?status=${selectedStatus}` : '';
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/deliveries${params}`,
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/deliveries${params}`,
         { headers: { Authorization: `Bearer ${token}` } });
       setDeliveries(response.data.data || []);
     } catch (error) {
@@ -54,7 +54,7 @@ export const Deliveries: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`,
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`,
         { headers: { Authorization: `Bearer ${token}` } });
       setProducts(response.data.data || []);
     } catch (error) {
@@ -84,7 +84,7 @@ export const Deliveries: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/deliveries`, formData,
+      await axios.post(`${import.meta.env.VITE_API_URL}/deliveries`, formData,
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Delivery created successfully');
       setShowModal(false);
@@ -99,7 +99,7 @@ export const Deliveries: React.FC = () => {
     if (!window.confirm('Validate this delivery and deduct stock?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/deliveries/${id}/validate`, {},
+      await axios.put(`${import.meta.env.VITE_API_URL}/deliveries/${id}/validate`, {},
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Delivery validated and stock updated');
       fetchDeliveries();
@@ -112,7 +112,7 @@ export const Deliveries: React.FC = () => {
     if (!window.confirm('Delete this delivery?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/deliveries/${id}`,
+      await axios.delete(`${import.meta.env.VITE_API_URL}/deliveries/${id}`,
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Delivery deleted');
       fetchDeliveries();

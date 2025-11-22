@@ -42,7 +42,7 @@ export const ReorderRules: React.FC = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/products/reorder-rules`,
+        `${import.meta.env.VITE_API_URL}/products/reorder-rules`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -60,7 +60,7 @@ export const ReorderRules: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/products/purchase-suggestions`,
+        `${import.meta.env.VITE_API_URL}/products/purchase-suggestions`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -96,7 +96,7 @@ export const ReorderRules: React.FC = () => {
       const updates = editedProducts[productId];
 
       await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/products/${productId}/reorder-rule`,
+        `${import.meta.env.VITE_API_URL}/products/${productId}/reorder-rule`,
         updates,
         {
           headers: { Authorization: `Bearer ${token}` },

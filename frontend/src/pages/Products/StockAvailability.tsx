@@ -89,7 +89,7 @@ export const StockAvailability: React.FC = () => {
       params.append('limit', limit.toString());
 
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/products?${params.toString()}`,
+        `${import.meta.env.VITE_API_URL}/products?${params.toString()}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -110,7 +110,7 @@ export const StockAvailability: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/categories`,
+        `${import.meta.env.VITE_API_URL}/categories`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -125,7 +125,7 @@ export const StockAvailability: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/warehouses`,
+        `${import.meta.env.VITE_API_URL}/warehouses`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

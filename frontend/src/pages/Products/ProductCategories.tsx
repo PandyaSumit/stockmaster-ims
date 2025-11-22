@@ -47,7 +47,7 @@ export const ProductCategories: React.FC = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/categories`,
+        `${import.meta.env.VITE_API_URL}/categories`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -105,7 +105,7 @@ export const ProductCategories: React.FC = () => {
 
       if (isEditMode && currentCategoryId) {
         await axios.put(
-          `${import.meta.env.VITE_API_URL}/api/categories/${currentCategoryId}`,
+          `${import.meta.env.VITE_API_URL}/categories/${currentCategoryId}`,
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -114,7 +114,7 @@ export const ProductCategories: React.FC = () => {
         toast.success('Category updated successfully');
       } else {
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/categories`,
+          `${import.meta.env.VITE_API_URL}/categories`,
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -146,7 +146,7 @@ export const ProductCategories: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/categories/${categoryId}`,
+        `${import.meta.env.VITE_API_URL}/categories/${categoryId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

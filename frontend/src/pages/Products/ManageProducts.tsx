@@ -96,11 +96,11 @@ export const ManageProducts: React.FC = () => {
       const token = localStorage.getItem('token');
 
       const [categoriesRes, warehousesRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/categories`, {
+        axios.get(`${import.meta.env.VITE_API_URL}/categories`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
         // Assuming warehouse endpoint exists (will be created later)
-        axios.get(`${import.meta.env.VITE_API_URL}/api/warehouses`, {
+        axios.get(`${import.meta.env.VITE_API_URL}/warehouses`, {
           headers: { Authorization: `Bearer ${token}` },
         }).catch(() => ({ data: { data: [] } })), // Fallback if warehouses endpoint doesn't exist yet
       ]);
@@ -120,7 +120,7 @@ export const ManageProducts: React.FC = () => {
       setIsFetchingData(true);
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/products/${id}`,
+        `${import.meta.env.VITE_API_URL}/products/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -154,8 +154,8 @@ export const ManageProducts: React.FC = () => {
       setIsGeneratingSKU(true);
       const token = localStorage.getItem('token');
       const url = formData.category
-        ? `${import.meta.env.VITE_API_URL}/api/products/generate-sku?categoryId=${formData.category}`
-        : `${import.meta.env.VITE_API_URL}/api/products/generate-sku`;
+        ? `${import.meta.env.VITE_API_URL}/products/generate-sku?categoryId=${formData.category}`
+        : `${import.meta.env.VITE_API_URL}/products/generate-sku`;
 
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -231,7 +231,7 @@ export const ManageProducts: React.FC = () => {
 
       if (isEditMode) {
         await axios.put(
-          `${import.meta.env.VITE_API_URL}/api/products/${productId}`,
+          `${import.meta.env.VITE_API_URL}/products/${productId}`,
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -240,7 +240,7 @@ export const ManageProducts: React.FC = () => {
         toast.success('Product updated successfully');
       } else {
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/products`,
+          `${import.meta.env.VITE_API_URL}/products`,
           payload,
           {
             headers: { Authorization: `Bearer ${token}` },

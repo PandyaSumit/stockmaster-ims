@@ -41,7 +41,7 @@ export const Receipts: React.FC = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       const params = selectedStatus ? `?status=${selectedStatus}` : '';
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/receipts${params}`,
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/receipts${params}`,
         { headers: { Authorization: `Bearer ${token}` } });
       setReceipts(response.data.data || []);
     } catch (error) {
@@ -54,7 +54,7 @@ export const Receipts: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`,
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`,
         { headers: { Authorization: `Bearer ${token}` } });
       setProducts(response.data.data || []);
     } catch (error) {
@@ -84,7 +84,7 @@ export const Receipts: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/receipts`, formData,
+      await axios.post(`${import.meta.env.VITE_API_URL}/receipts`, formData,
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Receipt created successfully');
       setShowModal(false);
@@ -99,7 +99,7 @@ export const Receipts: React.FC = () => {
     if (!window.confirm('Validate this receipt and update stock?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/receipts/${id}/validate`, {},
+      await axios.put(`${import.meta.env.VITE_API_URL}/receipts/${id}/validate`, {},
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Receipt validated and stock updated');
       fetchReceipts();
@@ -112,7 +112,7 @@ export const Receipts: React.FC = () => {
     if (!window.confirm('Delete this receipt?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/receipts/${id}`,
+      await axios.delete(`${import.meta.env.VITE_API_URL}/receipts/${id}`,
         { headers: { Authorization: `Bearer ${token}` } });
       toast.success('Receipt deleted');
       fetchReceipts();

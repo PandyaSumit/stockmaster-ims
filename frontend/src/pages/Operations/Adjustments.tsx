@@ -84,7 +84,7 @@ export const Adjustments: React.FC = () => {
   const fetchAdjustments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/adjustments`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/adjustments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAdjustments(response.data.data || []);
@@ -98,7 +98,7 @@ export const Adjustments: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProducts(response.data.data || []);
@@ -110,7 +110,7 @@ export const Adjustments: React.FC = () => {
   const fetchWarehouses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/warehouses`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/warehouses`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWarehouses(response.data.data || []);
@@ -136,7 +136,7 @@ export const Adjustments: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/adjustments`,
+        `${import.meta.env.VITE_API_URL}/adjustments`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -154,7 +154,7 @@ export const Adjustments: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/adjustments/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/adjustments/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Adjustment deleted successfully');
